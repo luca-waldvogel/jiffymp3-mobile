@@ -53,5 +53,11 @@ export const commonStyles = StyleSheet.create({
     navigatorText: {
         color: '#007AFF',
         fontSize: 16
+    },
+    logoContainer: {
+        alignItems: 'center'
+    },
+    buttonText: {
+        color: 'white'
     }
 });

@@ -46,9 +46,7 @@ export default function AuthForm({
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={commonStyles.container}>
                 <View style={commonStyles.signInContainer}>
-                    <View style={{
-                        alignItems: 'center',
-                    }}>
+                    <View style={commonStyles.logoContainer}>
                         <Image
                             source={require('@/assets/images/logo.png')}
                             style={commonStyles.imageBig}
@@ -85,7 +83,7 @@ export default function AuthForm({
                             style={commonStyles[buttonStyle]}
                             onPress={handleSubmit}
                         >
-                            <Text style={{ color: 'white' }}>{buttonText}</Text>
+                            <Text style={commonStyles.buttonText}>{buttonText}</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={commonStyles.navigator}>
