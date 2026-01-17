@@ -1,5 +1,5 @@
 import { useState} from 'react';
-import { Text, View} from "react-native";
+import {Text, TextInput, TouchableOpacity, View} from "react-native";
 import { Link, useRouter} from 'expo-router';
 import {commonStyles} from '@/styles/common';
 import {firebaseConfig} from '@/components/firebase-config'
@@ -15,15 +15,7 @@ function SignInForm() {
     const [password, setPassword] = useState("");
     const router = useRouter();
 
-    function handleEmail(e: any) {
-        setEmail(e.target.value);
-    }
-
-    function handlePW(e: any) {
-        setPassword(e.target.value);
-    }
-
-    function handleSubmit(e: any) {
+    function handleSubmit() {
         signInWithEmailAndPassword(auth, email, password)
             .then(() => {
                 router.navigate('/(tabs)/converter')
@@ -36,32 +28,41 @@ function SignInForm() {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>Email:
-                <input
-                    type="text"
-                    value={email}
-                    onChange={handleEmail}
-                />
-            </label>
-            <label>Password:
-                <input
-                    type="text"
-                    value={password}
-                    onChange={handlePW}
-                />
-            </label>
-            <input type="submit" />
-        </form>
+        <View>
+            <Text>Email:</Text>
+            <TextInput
+                style={{ borderWidth: 1, padding: 10, marginBottom: 10 }}
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+            />
+
+            <Text>Password:</Text>
+            <TextInput
+                style={{ borderWidth: 1, padding: 10, marginBottom: 10 }}
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={true}
+            />
+
+            <TouchableOpacity
+                style={{ backgroundColor: '#007AFF', padding: 15, alignItems: 'center' }}
+                onPress={handleSubmit}
+            >
+                <Text style={{ color: 'white' }}>Sign In</Text>
+            </TouchableOpacity>
+        </View>
     )
 }
+
 
 export default function Index() {
   return (
     <View
       style={commonStyles.container}
     >
-      <SignInForm/>
+      <SignInForm />
 
         <Link href="/(tabs)/converter" dismissTo>
             <Text>Login(Mock)</Text>
