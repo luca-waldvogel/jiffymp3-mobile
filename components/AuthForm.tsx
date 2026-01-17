@@ -73,7 +73,6 @@ export default function AuthForm({
                             secureTextEntry={true}
                             placeholder="Password"
                             placeholderTextColor="#999999"
-
                         />
 
                         {error && (
