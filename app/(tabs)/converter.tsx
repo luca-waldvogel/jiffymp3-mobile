@@ -1,28 +1,17 @@
-import {Button, StyleSheet, Text, View} from "react-native";
+import {Button, Text, View} from "react-native";
 import { Link } from 'expo-router';
+import { commonStyles } from '@/styles/common';
 
 export default function Converter() {
     return (
         <View
-            style={styles.container}
+            style={commonStyles.container}
         >
-            <Text style={styles.text}>Converter Page</Text>
+            <Text style={commonStyles.text}>Converter Page</Text>
             <Button title="Convert" onPress={() => {}} />
             <Link href="/" dismissTo>
-                <Text style={styles.text}>Logout</Text>
+                <Text style={commonStyles.text}>Logout</Text>
             </Link>
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    text: {
-        color: '#000',
-    },
-});
