@@ -1,15 +1,20 @@
-import { Text, View } from "react-native";
+import {Button, Text, View} from "react-native";
+import { Link } from 'expo-router';
+import { commonStyles } from '@/styles/common';
 
 export default function Index() {
   return (
     <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
+      style={commonStyles.container}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+      <Text style={commonStyles.text}>Login Page</Text>
+      <Button title="Login" onPress={() => {}} />
+        <Link href="/(tabs)/converter" dismissTo>
+            <Text>Login(Mock)</Text>
+        </Link>
+        <Link href="/register" dismissTo>
+            <Text style={commonStyles.text}>Register</Text>
+        </Link>
     </View>
   );
 }
