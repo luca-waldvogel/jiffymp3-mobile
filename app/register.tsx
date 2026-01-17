@@ -1,12 +1,13 @@
-import {Button, StyleSheet, Text, View} from "react-native";
+import {Button, Text, View} from "react-native";
 import { Link } from 'expo-router';
+import { commonStyles } from '@/styles/common';
 
 export default function Register() {
     return (
         <View
-            style={styles.container}
+            style={commonStyles.container}
         >
-            <Text style={styles.text}>Register Page</Text>
+            <Text style={commonStyles.text}>Register Page</Text>
             <Button title="Register" onPress={() => {}} />
             <Link href="/(tabs)/converter" dismissTo>
                 <Text>Register</Text>
@@ -14,15 +15,3 @@ export default function Register() {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    text: {
-        color: '#000',
-    },
-});
