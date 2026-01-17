@@ -8,7 +8,7 @@ export default function Register() {
         >
             <Text style={styles.text}>Register Page</Text>
             <Button title="Register" onPress={() => {}} />
-            <Link href="/" dismissTo>
+            <Link href="/(tabs)/converter" dismissTo>
                 <Text>Register</Text>
             </Link>
         </View>
