@@ -50,6 +50,7 @@ export default function Index() {
                             value={email}
                             onChangeText={setEmail}
                             keyboardType="email-address"
+                            autoCapitalize="none"
                             placeholder="Email"
                             placeholderTextColor="#999999"
                         />
