@@ -11,6 +11,7 @@ export default function Index() {
             buttonStyle="button"
             navigationHref="/register"
             navigationText="Register"
+            successMessage="User ${user.uid} logged in successfully"
         />
     )
 }

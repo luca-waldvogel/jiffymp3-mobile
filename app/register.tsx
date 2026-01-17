@@ -11,6 +11,7 @@ export default function Register() {
             buttonStyle="buttonRegister"
             navigationHref="/"
             navigationText="Back to Login"
+            successMessage="New user ${user.uid} created with email: ${user.email}"
         />
     )
 }

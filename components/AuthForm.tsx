@@ -11,6 +11,7 @@ interface AuthFormProps {
     buttonStyle: 'button' | 'buttonRegister';
     navigationHref: string;
     navigationText: string;
+    successMessage: string;
 }
 
 export default function AuthForm({
@@ -19,7 +20,8 @@ export default function AuthForm({
     buttonText,
     buttonStyle,
     navigationHref,
-    navigationText
+    navigationText,
+    successMessage
 }: AuthFormProps) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -31,7 +33,7 @@ export default function AuthForm({
         onSubmit(email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
-                console.log(`User ${user.uid} authenticated successfully`);
+                console.log(successMessage.replace('${user.uid}', user.uid).replace('${user.email}', user.email || ''));
                 router.navigate('/(tabs)/converter')
             })
             .catch((error) => {
