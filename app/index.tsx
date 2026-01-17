@@ -5,6 +5,7 @@ import {commonStyles} from '@/styles/common';
 import {firebaseConfig} from '@/components/firebase-config'
 import {initializeApp} from "firebase/app";
 import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
+import {red} from "react-native-reanimated/lib/typescript/Colors";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -13,9 +14,11 @@ const auth = getAuth(app);
 export default function Index() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState(false);
     const router = useRouter();
 
     function handleSubmit() {
+        setError(false);
         signInWithEmailAndPassword(auth, email, password)
             .then(() => {
                 router.navigate('/(tabs)/converter')
@@ -23,6 +26,7 @@ export default function Index() {
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
+                setError(true);
                 console.log(errorCode, errorMessage);
             });
     }
@@ -46,7 +50,6 @@ export default function Index() {
                         value={email}
                         onChangeText={setEmail}
                         keyboardType="email-address"
-                        autoCapitalize="none"
                         placeholder="Email"
                         placeholderTextColor="#999999"
                     />
@@ -60,6 +63,11 @@ export default function Index() {
                         placeholderTextColor="#999999"
 
                     />
+                    {error && (
+                        <Text style={{color: '#FF0000', marginBottom: 10}}>
+                            Email or Password is incorrect
+                        </Text>
+                    )}
 
                     <TouchableOpacity
                         style={commonStyles.button}

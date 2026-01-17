@@ -13,9 +13,11 @@ const auth = getAuth(app);
 export default function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState(false);
     const router = useRouter();
 
     function handleSubmit() {
+        setError(false);
         createUserWithEmailAndPassword(auth, email, password)
             .then(() => {
                 router.navigate('/(tabs)/converter')
@@ -23,6 +25,7 @@ export default function Register() {
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
+                setError(true);
                 console.log(errorCode, errorMessage);
             });
     }
@@ -60,6 +63,12 @@ export default function Register() {
                         placeholderTextColor="#999999"
 
                     />
+
+                    {error && (
+                        <Text style={{color: '#FF0000', marginBottom: 10}}>
+                            Must be a valid email address and a password with 6 or more characters
+                        </Text>
+                    )}
 
                     <TouchableOpacity
                         style={commonStyles.buttonRegister}
