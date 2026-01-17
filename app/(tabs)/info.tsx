@@ -1,15 +1,23 @@
-import {Text, View} from "react-native";
+import {StyleSheet, Text, View} from "react-native";
 
 export default function Info() {
     return (
         <View
-            style={{
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "center",
-            }}
+            style={styles.container}
         >
-            <Text>Info Page</Text>
+            <Text style={styles.text}>Info Page</Text>
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    text: {
+        color: '#000',
+    },
+});
