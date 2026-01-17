@@ -1,5 +1,5 @@
 import { useState} from 'react';
-import {Text, TextInput, TouchableOpacity, View} from "react-native";
+import {Text, TextInput, TouchableOpacity, View, Keyboard, TouchableWithoutFeedback} from "react-native";
 import { Link, useRouter} from 'expo-router';
 import {commonStyles} from '@/styles/common';
 import {firebaseConfig} from '@/components/firebase-config'
@@ -28,37 +28,38 @@ function SignInForm() {
     }
 
     return (
-        <View>
-            <Text>Email:</Text>
-            <TextInput
-                style={{ borderWidth: 1, padding: 10, marginBottom: 10 }}
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-                autoCapitalize="none"
-            />
+            <View>
+                <Text>Email:</Text>
+                <TextInput
+                    style={{ borderWidth: 1, padding: 10, marginBottom: 10 }}
+                    value={email}
+                    onChangeText={setEmail}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                />
 
-            <Text>Password:</Text>
-            <TextInput
-                style={{ borderWidth: 1, padding: 10, marginBottom: 10 }}
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry={true}
-            />
+                <Text>Password:</Text>
+                <TextInput
+                    style={{ borderWidth: 1, padding: 10, marginBottom: 10 }}
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry={true}
+                />
 
-            <TouchableOpacity
-                style={{ backgroundColor: '#007AFF', padding: 15, alignItems: 'center' }}
-                onPress={handleSubmit}
-            >
-                <Text style={{ color: 'white' }}>Sign In</Text>
-            </TouchableOpacity>
-        </View>
+                <TouchableOpacity
+                    style={{ backgroundColor: '#007AFF', padding: 15, alignItems: 'center' }}
+                    onPress={handleSubmit}
+                >
+                    <Text style={{ color: 'white' }}>Sign In</Text>
+                </TouchableOpacity>
+            </View>
     )
 }
 
 
 export default function Index() {
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <View
       style={commonStyles.container}
     >
@@ -71,5 +72,6 @@ export default function Index() {
             <Text style={commonStyles.text}>Register</Text>
         </Link>
     </View>
+    </TouchableWithoutFeedback>
   );
 }

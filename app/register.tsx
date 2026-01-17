@@ -1,6 +1,6 @@
 import { useState} from 'react';
 import {Text, TextInput, TouchableOpacity, View} from "react-native";
-import { Link, useRouter} from 'expo-router';
+import { useRouter} from 'expo-router';
 import {commonStyles} from '@/styles/common';
 import {firebaseConfig} from '@/components/firebase-config'
 import {initializeApp} from "firebase/app";
@@ -63,10 +63,6 @@ export default function Register() {
             style={commonStyles.container}
         >
             <SignUpForm />
-
-            <Link href="/(tabs)/converter" dismissTo>
-                <Text>Register(Mock)</Text>
-            </Link>
         </View>
     );
 }
