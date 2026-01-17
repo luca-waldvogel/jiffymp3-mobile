@@ -1,17 +1,17 @@
-import {Button, Text, View} from "react-native";
-import { Link } from 'expo-router';
-import { commonStyles } from '@/styles/common';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import AuthForm from '@/components/AuthForm';
+import { auth } from '@/components/firebase-auth';
 
 export default function Register() {
     return (
-        <View
-            style={commonStyles.container}
-        >
-            <Text style={commonStyles.text}>Register Page</Text>
-            <Button title="Register" onPress={() => {}} />
-            <Link href="/(tabs)/converter" dismissTo>
-                <Text>Register</Text>
-            </Link>
-        </View>
-    );
+        <AuthForm
+            onSubmit={(email, password) => createUserWithEmailAndPassword(auth, email, password)}
+            errorMessage="Must be a valid email address and a password with 6 or more characters"
+            buttonText="Create Account"
+            buttonStyle="buttonRegister"
+            navigationHref="/"
+            navigationText="Back to Login"
+            successMessage="New user ${user.uid} created with email: ${user.email}"
+        />
+    )
 }

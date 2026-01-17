@@ -1,20 +1,17 @@
-import {Button, Text, View} from "react-native";
-import { Link } from 'expo-router';
-import { commonStyles } from '@/styles/common';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import AuthForm from '@/components/AuthForm';
+import { auth } from '@/components/firebase-auth';
 
 export default function Index() {
-  return (
-    <View
-      style={commonStyles.container}
-    >
-      <Text style={commonStyles.text}>Login Page</Text>
-      <Button title="Login" onPress={() => {}} />
-        <Link href="/(tabs)/converter" dismissTo>
-            <Text>Login(Mock)</Text>
-        </Link>
-        <Link href="/register" dismissTo>
-            <Text style={commonStyles.text}>Register</Text>
-        </Link>
-    </View>
-  );
+    return (
+        <AuthForm
+            onSubmit={(email, password) => signInWithEmailAndPassword(auth, email, password)}
+            errorMessage="Email or Password is incorrect"
+            buttonText="Sign In"
+            buttonStyle="button"
+            navigationHref="/register"
+            navigationText="Register"
+            successMessage="User ${user.uid} logged in successfully"
+        />
+    )
 }
