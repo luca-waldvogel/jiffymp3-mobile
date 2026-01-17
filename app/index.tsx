@@ -1,5 +1,5 @@
 import { useState} from 'react';
-import {Text, TextInput, TouchableOpacity, View, Keyboard, TouchableWithoutFeedback} from "react-native";
+import {Image, Text, TextInput, TouchableOpacity, View, Keyboard, TouchableWithoutFeedback} from "react-native";
 import { Link, useRouter} from 'expo-router';
 import {commonStyles} from '@/styles/common';
 import {firebaseConfig} from '@/components/firebase-config'
@@ -10,7 +10,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 
-function SignInForm() {
+export default function Index() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const router = useRouter();
@@ -28,50 +28,53 @@ function SignInForm() {
     }
 
     return (
-            <View>
-                <Text>Email:</Text>
-                <TextInput
-                    style={{ borderWidth: 1, padding: 10, marginBottom: 10 }}
-                    value={email}
-                    onChangeText={setEmail}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                />
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+            <View style={commonStyles.container}>
+                <View style={{marginBottom: 100}}>
+                <View style={{
+                    alignItems: 'center',
+                }}>
+                    <Image
+                        source={require('@/assets/images/logo.png')}
+                        style={commonStyles.imageBig}
+                    />
+                </View>
 
-                <Text>Password:</Text>
-                <TextInput
-                    style={{ borderWidth: 1, padding: 10, marginBottom: 10 }}
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry={true}
-                />
+                <View style={commonStyles.form}>
+                    <TextInput
+                        style={commonStyles.input}
+                        value={email}
+                        onChangeText={setEmail}
+                        keyboardType="email-address"
+                        autoCapitalize="none"
+                        placeholder="Email"
+                        placeholderTextColor="#999999"
+                    />
 
-                <TouchableOpacity
-                    style={{ backgroundColor: '#007AFF', padding: 15, alignItems: 'center' }}
-                    onPress={handleSubmit}
-                >
-                    <Text style={{ color: 'white' }}>Sign In</Text>
-                </TouchableOpacity>
+                    <TextInput
+                        style={commonStyles.input}
+                        value={password}
+                        onChangeText={setPassword}
+                        secureTextEntry={true}
+                        placeholder="Password"
+                        placeholderTextColor="#999999"
+
+                    />
+
+                    <TouchableOpacity
+                        style={commonStyles.button}
+                        onPress={handleSubmit}
+                    >
+                        <Text style={{ color: 'white' }}>Sign In</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
+                    <Link href="/register" dismissTo>
+                        <Text style={{ color: '#007AFF', fontSize: 16 }}>Register</Text>
+                    </Link>
+                </View>
+                </View>
             </View>
+        </TouchableWithoutFeedback>
     )
-}
-
-
-export default function Index() {
-  return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-    <View
-      style={commonStyles.container}
-    >
-      <SignInForm />
-
-        <Link href="/(tabs)/converter" dismissTo>
-            <Text>Login(Mock)</Text>
-        </Link>
-        <Link href="/register" dismissTo>
-            <Text style={commonStyles.text}>Register</Text>
-        </Link>
-    </View>
-    </TouchableWithoutFeedback>
-  );
 }
