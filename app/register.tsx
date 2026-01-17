@@ -19,7 +19,9 @@ export default function Register() {
     function handleSubmit() {
         setError(false);
         createUserWithEmailAndPassword(auth, email, password)
-            .then(() => {
+            .then((userCredential) => {
+                const user = userCredential.user;
+                console.log(`New user ${user.uid} created with email: ${user.email}`);
                 router.navigate('/(tabs)/converter')
             })
             .catch((error) => {

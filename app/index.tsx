@@ -5,7 +5,6 @@ import {commonStyles} from '@/styles/common';
 import {firebaseConfig} from '@/components/firebase-config'
 import {initializeApp} from "firebase/app";
 import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
-import {red} from "react-native-reanimated/lib/typescript/Colors";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -20,7 +19,9 @@ export default function Index() {
     function handleSubmit() {
         setError(false);
         signInWithEmailAndPassword(auth, email, password)
-            .then(() => {
+            .then((userCredential) => {
+                const user = userCredential.user;
+                console.log(`User ${user.uid} logged in successfully`);
                 router.navigate('/(tabs)/converter')
             })
             .catch((error) => {
