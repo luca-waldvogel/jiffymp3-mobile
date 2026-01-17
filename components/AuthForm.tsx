@@ -29,6 +29,7 @@ export default function AuthForm({
     const router = useRouter();
 
     function handleSubmit() {
+        Keyboard.dismiss()
         setError(false);
         onSubmit(email, password)
             .then((userCredential) => {
@@ -89,8 +90,8 @@ export default function AuthForm({
                         </TouchableOpacity>
                     </View>
                     <View style={commonStyles.navigator}>
-                        <Link href={navigationHref} dismissTo>
-                            <Text style={commonStyles.navigatorText}>{navigationText}</Text>
+                        <Link href={navigationHref as any} dismissTo>
+                            <Text style={commonStyles.navigatorText} onPress={Keyboard.dismiss}>{navigationText}</Text>
                         </Link>
                     </View>
                 </View>
