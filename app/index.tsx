@@ -1,4 +1,5 @@
-import { Text, View } from "react-native";
+import {Button, Text, View} from "react-native";
+import { Link } from 'expo-router';
 
 export default function Index() {
   return (
@@ -9,7 +10,14 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+      <Text>Login Page</Text>
+      <Button title="Login" onPress={() => {}} />
+        <Link href="/(tabs)/converter" dismissTo>
+            <Text>Login(Mock)</Text>
+        </Link>
+        <Link href="/register" dismissTo>
+            <Text>Register</Text>
+        </Link>
     </View>
   );
 }
