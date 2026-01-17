@@ -34,53 +34,53 @@ export default function Index() {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={commonStyles.container}>
-                <View style={{marginBottom: 100}}>
-                <View style={{
-                    alignItems: 'center',
-                }}>
-                    <Image
-                        source={require('@/assets/images/logo.png')}
-                        style={commonStyles.imageBig}
-                    />
-                </View>
+                <View style={commonStyles.signInContainer}>
+                    <View style={{
+                        alignItems: 'center',
+                    }}>
+                        <Image
+                            source={require('@/assets/images/logo.png')}
+                            style={commonStyles.imageBig}
+                        />
+                    </View>
 
-                <View style={commonStyles.form}>
-                    <TextInput
-                        style={commonStyles.input}
-                        value={email}
-                        onChangeText={setEmail}
-                        keyboardType="email-address"
-                        placeholder="Email"
-                        placeholderTextColor="#999999"
-                    />
+                    <View style={commonStyles.form}>
+                        <TextInput
+                            style={commonStyles.input}
+                            value={email}
+                            onChangeText={setEmail}
+                            keyboardType="email-address"
+                            placeholder="Email"
+                            placeholderTextColor="#999999"
+                        />
 
-                    <TextInput
-                        style={commonStyles.input}
-                        value={password}
-                        onChangeText={setPassword}
-                        secureTextEntry={true}
-                        placeholder="Password"
-                        placeholderTextColor="#999999"
+                        <TextInput
+                            style={commonStyles.input}
+                            value={password}
+                            onChangeText={setPassword}
+                            secureTextEntry={true}
+                            placeholder="Password"
+                            placeholderTextColor="#999999"
 
-                    />
-                    {error && (
-                        <Text style={{color: '#FF0000', marginBottom: 10}}>
-                            Email or Password is incorrect
-                        </Text>
-                    )}
+                        />
+                        {error && (
+                            <Text style={commonStyles.errorText}>
+                                Email or Password is incorrect
+                            </Text>
+                        )}
 
-                    <TouchableOpacity
-                        style={commonStyles.button}
-                        onPress={handleSubmit}
-                    >
-                        <Text style={{ color: 'white' }}>Sign In</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
-                    <Link href="/register" dismissTo>
-                        <Text style={{ color: '#007AFF', fontSize: 16 }}>Register</Text>
-                    </Link>
-                </View>
+                        <TouchableOpacity
+                            style={commonStyles.button}
+                            onPress={handleSubmit}
+                        >
+                            <Text style={{ color: 'white' }}>Sign In</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={commonStyles.navigator}>
+                        <Link href="/register" dismissTo>
+                            <Text style={commonStyles.navigatorText}>Register</Text>
+                        </Link>
+                    </View>
                 </View>
             </View>
         </TouchableWithoutFeedback>

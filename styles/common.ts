@@ -6,6 +6,9 @@ export const commonStyles = StyleSheet.create({
         backgroundColor: '#fff',
         justifyContent: 'center'
     },
+    signInContainer: {
+        marginBottom: 100
+    },
     form: {
         backgroundColor: '#fff',
         justifyContent: 'center',
@@ -38,4 +41,17 @@ export const commonStyles = StyleSheet.create({
     text: {
         color: '#000',
     },
+    errorText: {
+        color: '#FF0000',
+        marginBottom: 10
+    },
+    navigator: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 20
+    },
+    navigatorText: {
+        color: '#007AFF',
+        fontSize: 16
+    }
 });
