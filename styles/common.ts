@@ -16,7 +16,6 @@ export const commonStyles = StyleSheet.create({
         backgroundColor: '#007AFF',
         padding: 15,
         alignItems: 'center',
-
     },
     buttonRegister: {
         borderRadius: 5,

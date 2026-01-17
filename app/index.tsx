@@ -1,14 +1,13 @@
-import { useState} from 'react';
-import {Image, Text, TextInput, TouchableOpacity, View, Keyboard, TouchableWithoutFeedback} from "react-native";
-import { Link, useRouter} from 'expo-router';
-import {commonStyles} from '@/styles/common';
-import {firebaseConfig} from '@/components/firebase-config'
-import {initializeApp} from "firebase/app";
-import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
+import { useState } from 'react';
+import { Image, Text, TextInput, TouchableOpacity, View, Keyboard, TouchableWithoutFeedback } from "react-native";
+import { Link, useRouter } from 'expo-router';
+import { getApp, getApps, initializeApp } from "firebase/app";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { commonStyles } from '@/styles/common';
+import { firebaseConfig } from '@/components/firebase-config'
 
-const app = initializeApp(firebaseConfig);
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const auth = getAuth(app);
-
 
 export default function Index() {
     const [email, setEmail] = useState("");
