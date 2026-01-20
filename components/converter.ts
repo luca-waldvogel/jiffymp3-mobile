@@ -21,6 +21,10 @@ async function convert(command: string) {
     }
 }
 
+async function saveToDatabase(data: any) {
+    return data;
+}
+
 convert('node --version')
     .then(version => console.log(`Node.js version: ${version.trim()}`));
 
