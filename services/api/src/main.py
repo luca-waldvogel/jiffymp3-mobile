@@ -48,9 +48,25 @@ def download():
             # Download the MP3 file to the temporary directory
             mp3_file_path = download_youtube_video_as_mp3(youtube_url, temp_dir)
 
+            # Ensure the downloaded file actually exists before trying to open it
+            if not mp3_file_path or not os.path.isfile(mp3_file_path):
+                logging.error(
+                    "Downloaded MP3 file not found at expected path: %s",
+                    mp3_file_path,
+                )
+                return jsonify({"error": "Failed to locate downloaded MP3 file"}), 500
+
             # Read the file into memory
-            with open(mp3_file_path, "rb") as f:
-                mp3_data = BytesIO(f.read())
+            try:
+                with open(mp3_file_path, "rb") as f:
+                    mp3_data = BytesIO(f.read())
+            except FileNotFoundError as fnf_err:
+                logging.error(
+                    "MP3 file missing when attempting to open: %s (%s)",
+                    mp3_file_path,
+                    fnf_err,
+                )
+                return jsonify({"error": "Downloaded MP3 file is no longer available"}), 500
 
             # Get the filename for the download
             filename = os.path.basename(mp3_file_path)
