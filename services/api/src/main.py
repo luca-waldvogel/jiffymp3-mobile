@@ -36,7 +36,12 @@ def download_youtube_video_as_mp3(url, output_path):
 
 @app.route("/convert", methods=["POST"])
 def download():
-    data = request.json
+    if not request.is_json:
+        return jsonify({"error": "Request must be JSON with Content-Type application/json"}), 400
+
+    data = request.get_json(silent=True)
+    if not isinstance(data, dict):
+        return jsonify({"error": "JSON body must be an object"}), 400
     youtube_url = data.get("url")
 
     if not youtube_url:
