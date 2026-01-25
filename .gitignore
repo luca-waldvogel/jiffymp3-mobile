@@ -44,3 +44,6 @@ app-example
 
 # env
 .env
+
+# python venv
+/services/api/.venv
