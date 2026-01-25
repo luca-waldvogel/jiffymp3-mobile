@@ -85,8 +85,8 @@ def download():
                 mimetype="audio/mpeg",
             )
         except Exception as e:
-            logging.error(f"Error during download: {e}")
-            return jsonify({"error": str(e)}), 500
+            logging.exception("Error during download")
+            return jsonify({"error": "Internal server error during download"}), 500
 
 
 if __name__ == "__main__":
