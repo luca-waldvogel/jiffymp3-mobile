@@ -43,7 +43,7 @@ def is_valid_youtube_url(url):
             return False
         
         # Additional validation for youtube.com URLs - should have /watch or /playlist paths
-        if 'youtube.com' in parsed.netloc:
+        if parsed.netloc.endswith('youtube.com'):
             valid_paths = ['/watch', '/playlist', '/shorts', '/live']
             if not any(parsed.path.startswith(path) for path in valid_paths):
                 return False
