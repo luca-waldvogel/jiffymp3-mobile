@@ -26,6 +26,13 @@ export const commonStyles = StyleSheet.create({
         padding: 15,
         alignItems: 'center',
     },
+    buttonDownload: {
+        borderRadius: 5,
+        backgroundColor: '#32CD32',
+        padding: 15,
+        alignItems: 'center',
+        marginTop: 10
+    },
     input: {
         borderWidth: 1,
         borderRadius: 5,
@@ -59,5 +66,27 @@ export const commonStyles = StyleSheet.create({
     },
     buttonText: {
         color: 'white'
+    },
+    loadingText: {
+        marginTop: 12,
+        fontSize: 16,
+        fontWeight: '600',
+        textAlign: 'center',
+    },
+    successContainer: {
+        marginTop: 12,
+        padding: 12,
+        borderRadius: 6,
+        backgroundColor: '#E6FFE6',
+        borderWidth: 1,
+        borderColor: '#32CD32'
+    },
+    successTitle: {
+        color: '#0F5132',
+        fontWeight: '600'
+    },
+    successMessage: {
+        color: '#0F5132',
+        marginTop: 4
     }
 });
