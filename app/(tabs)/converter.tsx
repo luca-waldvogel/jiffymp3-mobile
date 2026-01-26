@@ -55,12 +55,12 @@ export default function Converter() {
         setError(null);
 
         if (!apiEndpoint) {
-            setError('API base URL fehlt. Prüfe die .env (EXPO_PUBLIC_API_BASE_URL).');
+            setError('An error occurred. Please try again.');
             return;
         }
 
         if (!url.trim()) {
-            setError('Bitte einen YouTube-Link eingeben.');
+            setError('Please enter a URL.');
             return;
         }
 
@@ -73,13 +73,13 @@ export default function Converter() {
             });
 
             if (!response.ok) {
-                throw new Error(`API-Fehler: ${response.status}`);
+                throw new Error('An error occurred. Please try again.');
             }
 
             const data = await response.json();
             const filename = data?.title as string | undefined;
             if (!filename) {
-                throw new Error('Kein Dateiname vom API erhalten.');
+                throw new Error('An error occurred. Please try again.');
             }
 
             // TODO: Replace mockBlob with actual audio data from API
@@ -92,7 +92,7 @@ export default function Converter() {
             setDownloadUrl(dUrl);
             setMessage(filename);
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Unknown error occurred');
+            setError('An error occurred. Please try again.');
         } finally {
             setLoading(false);
         }
@@ -103,7 +103,7 @@ export default function Converter() {
         try {
             await Linking.openURL(downloadUrl);
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Download failed');
+            setError('An error occurred. Please try again.');
         }
     };
 
@@ -113,7 +113,7 @@ export default function Converter() {
             await signOut(auth);
             router.replace('/');
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Logout fehlgeschlagen');
+            setError('An error occurred. Please try again.');
         }
     };
 
@@ -155,7 +155,7 @@ export default function Converter() {
                                         {
                                             color: fadeAnim.interpolate({
                                                 inputRange: [0.3, 1],
-                                                outputRange: ['#007AFF', '#ffffff'],
+                                                outputRange: ['#d61b9e', '#ffffff'],
                                             }),
                                         },
                                     ]}

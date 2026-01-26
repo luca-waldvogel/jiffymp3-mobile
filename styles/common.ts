@@ -16,7 +16,7 @@ export const commonStyles = StyleSheet.create({
     },
     button: {
         borderRadius: 5,
-        backgroundColor: '#007AFF',
+        backgroundColor: '#d61b9e',
         padding: 15,
         alignItems: 'center',
     },
@@ -58,7 +58,7 @@ export const commonStyles = StyleSheet.create({
         marginTop: 20
     },
     navigatorText: {
-        color: '#007AFF',
+        color: '#adadad',
         fontSize: 16
     },
     logoContainer: {
@@ -88,5 +88,38 @@ export const commonStyles = StyleSheet.create({
     successMessage: {
         color: '#0F5132',
         marginTop: 4
-    }
+    },
+    infoContainer: {
+        flex: 1,
+        backgroundColor: '#fff',
+    },
+    infoContent: {
+        padding: 20,
+        paddingBottom: 40,
+    },
+    infoTitle: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: '#000',
+        marginTop: 15,
+        marginBottom: 20,
+        textAlign: 'center',
+    },
+    infoSectionTitle: {
+        fontSize: 18,
+        fontWeight: '600',
+        color: '#000',
+        marginTop: 16,
+        marginBottom: 8,
+    },
+    infoText: {
+        fontSize: 14,
+        color: '#333',
+        lineHeight: 22,
+        marginBottom: 12,
+    },
+    mainHeader: {
+        height: 60,
+        backgroundColor: '#d61b9e',
+    },
 });
