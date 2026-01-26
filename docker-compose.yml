@@ -6,7 +6,4 @@ services:
       - "8000:8000"
     environment:
       - PYTHONUNBUFFERED=1
-      - YT_DLP_COOKIE_FILE=/cookies/cookies.txt
-    volumes:
-      - ./cookies.txt:/cookies/cookies.txt:ro
     restart: unless-stopped
