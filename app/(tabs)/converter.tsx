@@ -1,9 +1,9 @@
 import { useRouter } from 'expo-router';
 import { getApp, getApps, initializeApp } from 'firebase/app';
 import { signOut } from 'firebase/auth';
-import { getStorage, ref, uploadBytes } from 'firebase/storage';
-import React, { useMemo, useState } from 'react';
-import { ActivityIndicator, Image, Keyboard, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Animated, Image, Keyboard, Linking, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 
 import { auth } from '@/components/firebase-auth';
 import { firebaseConfig } from '@/components/firebase-config';
@@ -18,13 +18,36 @@ export default function Converter() {
     const [url, setUrl] = useState('');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState<string | null>(null);
+    const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const [fadeAnim] = useState(new Animated.Value(1));
     const router = useRouter();
 
     const apiEndpoint = useMemo(() => {
         if (!API_BASE_URL) return null;
         return API_BASE_URL.endsWith('/') ? `${API_BASE_URL}convert` : `${API_BASE_URL}/convert`;
     }, []);
+
+    useEffect(() => {
+        if (loading) {
+            Animated.loop(
+                Animated.sequence([
+                    Animated.timing(fadeAnim, {
+                        toValue: 0.3,
+                        duration: 1000,
+                        useNativeDriver: false,
+                    }),
+                    Animated.timing(fadeAnim, {
+                        toValue: 1,
+                        duration: 1000,
+                        useNativeDriver: false,
+                    }),
+                ])
+            ).start();
+        } else {
+            fadeAnim.setValue(1);
+        }
+    }, [loading, fadeAnim]);
 
     const handleConvert = async () => {
         Keyboard.dismiss();
@@ -65,11 +88,22 @@ export default function Converter() {
             const storageRef = ref(storage, `mp3/${filename}`);
             await uploadBytes(storageRef, mockBlob, { contentType: 'audio/mpeg' });
 
+            const dUrl = await getDownloadURL(storageRef);
+            setDownloadUrl(dUrl);
             setMessage(filename);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Unknown error occurred');
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleDownload = async () => {
+        if (!downloadUrl) return;
+        try {
+            await Linking.openURL(downloadUrl);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Download failed');
         }
     };
 
@@ -114,14 +148,35 @@ export default function Converter() {
                             onPress={handleConvert}
                             disabled={loading}
                         >
-                            <Text style={commonStyles.buttonText}>{loading ? 'loading…' : 'Convert'}</Text>
+                            {loading ? (
+                                <Animated.Text
+                                    style={[
+                                        commonStyles.buttonText,
+                                        {
+                                            color: fadeAnim.interpolate({
+                                                inputRange: [0.3, 1],
+                                                outputRange: ['#007AFF', '#ffffff'],
+                                            }),
+                                        },
+                                    ]}
+                                >
+                                    loading...
+                                </Animated.Text>
+                            ) : (
+                                <Text style={commonStyles.buttonText}>Convert</Text>
+                            )}
                         </TouchableOpacity>
 
-                        {loading && <ActivityIndicator style={commonStyles.loadingIndicator} />}
                         {message && (
                             <View style={commonStyles.successContainer}>
                                 <Text style={commonStyles.successTitle}>Saved to database:</Text>
                                 <Text style={commonStyles.successMessage}>{message}</Text>
+                                <TouchableOpacity
+                                    style={commonStyles.buttonDownload}
+                                    onPress={handleDownload}
+                                >
+                                    <Text style={commonStyles.buttonText}>Download MP3</Text>
+                                </TouchableOpacity>
                             </View>
                         )}
                     </View>
