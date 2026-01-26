@@ -1,9 +1,11 @@
-import { Link } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { getApp, getApps, initializeApp } from 'firebase/app';
+import { signOut } from 'firebase/auth';
 import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import React, { useMemo, useState } from 'react';
 import { ActivityIndicator, Image, Keyboard, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 
+import { auth } from '@/components/firebase-auth';
 import { firebaseConfig } from '@/components/firebase-config';
 import { commonStyles } from '@/styles/common';
 
@@ -12,18 +14,12 @@ const storage = getStorage(app);
 
 const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL;
 
-function parseFilename(contentDisposition: string | null): string | null {
-    if (!contentDisposition) return null;
-    const match = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(contentDisposition);
-    if (!match) return null;
-    return match[1].replace(/['"]/g, '');
-}
-
 export default function Converter() {
     const [url, setUrl] = useState('');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
 
     const apiEndpoint = useMemo(() => {
         if (!API_BASE_URL) return null;
@@ -57,32 +53,33 @@ export default function Converter() {
                 throw new Error(`API-Fehler: ${response.status}`);
             }
 
-            // Handle title-only JSON responses gracefully
-            const contentType = response.headers.get('content-type');
-            if (contentType && contentType.includes('application/json')) {
-                const data = await response.json();
-                const title = data?.title || 'Unbekannter Titel';
-                setMessage(`${title}`);
-                return;
+            const data = await response.json();
+            const filename = data?.title as string | undefined;
+            if (!filename) {
+                throw new Error('Kein Dateiname vom API erhalten.');
             }
 
-            // Fallback: Blob upload when API returns file
-            const blob = await response.blob();
-            if (!blob || blob.size === 0) {
-                throw new Error('Leere Antwort erhalten.');
-            }
+            // TODO: Replace mockBlob with actual audio data from API
+            const mockBlob = new Blob([], { type: 'audio/mpeg' });
 
-            const filenameFromHeader = parseFilename(response.headers.get('content-disposition'));
-            const safeName = filenameFromHeader || `converted-${Date.now()}.mp3`;
-            const storageRef = ref(storage, `mp3/${safeName}`);
+            const storageRef = ref(storage, `mp3/${filename}`);
+            await uploadBytes(storageRef, mockBlob, { contentType: 'audio/mpeg' });
 
-            await uploadBytes(storageRef, blob, { contentType: 'audio/mpeg' });
-
-            setMessage(`Upload successful: ${safeName}`);
+            setMessage(filename);
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Unbekannter Fehler');
+            setError(err instanceof Error ? err.message : 'Unknown error occurred');
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleLogout = async () => {
+        Keyboard.dismiss();
+        try {
+            await signOut(auth);
+            router.replace('/');
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Logout fehlgeschlagen');
         }
     };
 
@@ -117,31 +114,22 @@ export default function Converter() {
                             onPress={handleConvert}
                             disabled={loading}
                         >
-                            <Text style={commonStyles.buttonText}>{loading ? 'Lädt…' : 'Get Name'}</Text>
+                            <Text style={commonStyles.buttonText}>{loading ? 'loading…' : 'Convert'}</Text>
                         </TouchableOpacity>
 
-                        {loading && <ActivityIndicator style={{ marginTop: 12 }} />}
+                        {loading && <ActivityIndicator style={commonStyles.loadingIndicator} />}
                         {message && (
-                            <View
-                                style={{
-                                    marginTop: 12,
-                                    padding: 12,
-                                    borderRadius: 6,
-                                    backgroundColor: '#E6FFE6',
-                                    borderWidth: 1,
-                                    borderColor: '#32CD32'
-                                }}
-                            >
-                                <Text style={{ color: '#0F5132', fontWeight: '600' }}>Done</Text>
-                                <Text style={{ color: '#0F5132', marginTop: 4 }}>{message}</Text>
+                            <View style={commonStyles.successContainer}>
+                                <Text style={commonStyles.successTitle}>Saved to database:</Text>
+                                <Text style={commonStyles.successMessage}>{message}</Text>
                             </View>
                         )}
                     </View>
 
                     <View style={commonStyles.navigator}>
-                        <Link href="/register" dismissTo>
-                            <Text style={commonStyles.navigatorText} onPress={Keyboard.dismiss}>Logout</Text>
-                        </Link>
+                        <TouchableOpacity onPress={handleLogout}>
+                            <Text style={commonStyles.navigatorText}>Logout</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
