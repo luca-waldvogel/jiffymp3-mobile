@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 
 @app.route("/convert", methods=["POST"])
-def download():
+def convert():
     if not request.is_json:
         return jsonify(
             {"error": "Request must be JSON with Content-Type application/json"}

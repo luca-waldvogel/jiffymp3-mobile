@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { Image, Text, TextInput, TouchableOpacity, View, Keyboard, TouchableWithoutFeedback } from "react-native";
-import { Link, useRouter } from 'expo-router';
 import { commonStyles } from '@/styles/common';
+import { useRouter } from 'expo-router';
 import { UserCredential } from "firebase/auth";
+import { useState } from 'react';
+import { Image, Keyboard, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 
 interface AuthFormProps {
     onSubmit: (email: string, password: string) => Promise<UserCredential>;
@@ -90,9 +90,12 @@ export default function AuthForm({
                         </TouchableOpacity>
                     </View>
                     <View style={commonStyles.navigator}>
-                        <Link href={navigationHref as any} dismissTo>
-                            <Text style={commonStyles.navigatorText} onPress={Keyboard.dismiss}>{navigationText}</Text>
-                        </Link>
+                        <TouchableOpacity onPress={() => {
+                            Keyboard.dismiss();
+                            router.push(navigationHref as any);
+                        }}>
+                            <Text style={commonStyles.navigatorText}>{navigationText}</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
